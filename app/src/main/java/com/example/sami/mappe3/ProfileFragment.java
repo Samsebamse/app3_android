@@ -2,6 +2,7 @@ package com.example.sami.mappe3;
 
 import android.content.SharedPreferences;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -13,13 +14,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
 public class ProfileFragment extends Fragment {
 
-    SharedPreferences profile;
-    TextView displayTime;
+    private SharedPreferences profile;
+    private TextView displayCurrentDate, displayDays, displayHours, displayMinutes, displaySeconds;
+
+    private long quitDateInMillis;
+    private Handler handler;
+    private Runnable runnable;
 
     @Nullable
     @Override
@@ -32,29 +38,54 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         profile = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        displayTime = (TextView) view.findViewById(R.id.view_duration);
+        displayCurrentDate = (TextView) view.findViewById(R.id.view_duration);
+        displayDays = (TextView) view.findViewById(R.id.view_days);
+        displayHours = (TextView) view.findViewById(R.id.view_hours);
+        displayMinutes = (TextView) view.findViewById(R.id.view_minutes);
+        displaySeconds = (TextView) view.findViewById(R.id.view_seconds);
 
-        displayDuration();
+        quitDateInMillis = profile.getLong("quitdate", 0);
+
         everySecondCall();
 
     }
 
+    @Override
+    public void onPause() {
+        handler.removeCallbacks(runnable);
+        super.onPause();
+    }
+
     private void everySecondCall() {
 
-        final Handler handler = new Handler();
-        final int delay = 1000; //milliseconds
-
-        handler.postDelayed(new Runnable(){
-            public void run(){
+        handler = new Handler();
+        final int delay = 1000; // 1000 milliseconds = 1 second
+        handler.postDelayed(runnable = new Runnable() {
+            public void run() {
                 displayDuration();
                 handler.postDelayed(this, delay);
-            }
-        }, delay);
-
+            }}, delay);
     }
+
 
     private void displayDuration() {
         String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        displayTime.setText(currentDateTimeString);
+        displayCurrentDate.setText(currentDateTimeString);
+
+        long diff = System.currentTimeMillis() - quitDateInMillis;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(diff);
+
+        long days = calendar.get(Calendar.DAY_OF_YEAR);
+        long hours = calendar.get(Calendar.HOUR_OF_DAY);
+        long minutes = calendar.get(Calendar.MINUTE);
+        long seconds = calendar.get(Calendar.SECOND);
+
+        displayDays.setText(String.valueOf(days));
+        displayHours.setText(String.valueOf(hours));
+        displayMinutes.setText(String.valueOf(minutes));
+        displaySeconds.setText(String.valueOf(seconds));
+
+        System.out.println("TRÅDEN KJØRER");
     }
 }
