@@ -2,7 +2,6 @@ package com.example.sami.mappe3;
 
 import android.content.SharedPreferences;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -51,6 +50,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onResume() {
+        displayDuration();
         everySecondCall();
         super.onResume();
     }
