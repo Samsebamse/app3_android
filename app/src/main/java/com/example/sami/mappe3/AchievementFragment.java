@@ -21,11 +21,5 @@ public class AchievementFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button_fragment3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(), "YOU ARE INSIDE FRAGMENT 3", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

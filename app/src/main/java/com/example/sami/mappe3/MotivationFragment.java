@@ -20,11 +20,5 @@ public class MotivationFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button_fragment2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(), "YOU ARE INSIDE FRAGMENT 2", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

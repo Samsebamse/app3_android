@@ -46,8 +46,13 @@ public class ProfileFragment extends Fragment {
 
         quitDateInMillis = profile.getLong("quitdate", 0);
 
-        everySecondCall();
+    }
 
+
+    @Override
+    public void onResume() {
+        everySecondCall();
+        super.onResume();
     }
 
     @Override
