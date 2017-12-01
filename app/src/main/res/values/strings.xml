@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">s305047</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="createaccount">Create account...</string>
+    <string name="quitdate">Enter the date you wish to quit</string>
+    <string name="consumption">Enter amount of packets you consume in a week</string>
+    <string name="price">Enter the latest price</string>
+
+</resources>
