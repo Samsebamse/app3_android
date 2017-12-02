@@ -36,14 +36,16 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getActivity().setTitle("My profile");
+
         profile = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        quitDateInMillis = profile.getLong("quitdate", 0);
+
         displayCurrentDate = (TextView) view.findViewById(R.id.view_duration);
         displayDays = (TextView) view.findViewById(R.id.view_days);
         displayHours = (TextView) view.findViewById(R.id.view_hours);
         displayMinutes = (TextView) view.findViewById(R.id.view_minutes);
         displaySeconds = (TextView) view.findViewById(R.id.view_seconds);
-
-        quitDateInMillis = profile.getLong("quitdate", 0);
 
     }
 
@@ -91,6 +93,6 @@ public class ProfileFragment extends Fragment {
         displayMinutes.setText(String.valueOf(minutes));
         displaySeconds.setText(String.valueOf(seconds));
 
-        System.out.println("TRÅDEN KJØRER");
+        System.out.println("TRÅD 1 KJØRER");
     }
 }

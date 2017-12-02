@@ -4,11 +4,12 @@
     <item android:id="@+id/view_profile"
         android:title="MyProfile"
         android:icon="@drawable/icon_profile"/>
+    <item android:id="@+id/view_achievement"
+        android:title="Achievement" />
     <item android:id="@+id/view_motivation"
         android:title="Motivation"
         android:icon="@drawable/icon_heart"/>
-    <item android:id="@+id/view_achievement"
-        android:title="Achievement" />
+
 
 
 </menu>
