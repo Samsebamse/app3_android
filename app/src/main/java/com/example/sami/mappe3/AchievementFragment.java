@@ -111,6 +111,7 @@ public class AchievementFragment extends Fragment {
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
                 checkForCompleteAchievement();
+                adapter.notifyDataSetChanged();
                 handler.postDelayed(this, delay);
             }}, delay);
     }
@@ -163,8 +164,6 @@ public class AchievementFragment extends Fragment {
             //System.out.println("Det har gått 1 år");
         }
 
-        System.out.println("TRÅD 2 KJØRER");
-        System.out.println(adapter.getItemId(0));
     }
 
 
