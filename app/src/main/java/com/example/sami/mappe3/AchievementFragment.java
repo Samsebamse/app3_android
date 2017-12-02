@@ -1,8 +1,6 @@
 package com.example.sami.mappe3;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -25,13 +23,10 @@ public class AchievementFragment extends Fragment {
     private List<Achievement> listAchievements;
     private ArrayAdapter<Achievement> adapter;
     private ListView listViewAchievements;
-    private ArrayList<Boolean> check;
 
     private long quitDateInMillis;
     private Handler handler;
     private Runnable runnable;
-
-    View itemView;
 
 
     @Nullable
@@ -45,7 +40,6 @@ public class AchievementFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getActivity().setTitle("Achievement");
-        check = new ArrayList<>();
         listAchievements = new ArrayList<>();
         listViewAchievements = (ListView) view.findViewById(R.id.listview_achievements);
 
@@ -59,9 +53,9 @@ public class AchievementFragment extends Fragment {
 
     @Override
     public void onResume() {
+        checkForCompleteAchievement();
         displayListView();
         everySecondCall();
-        checkForCompleteAchievement();
         displayListView();
         super.onResume();
     }
@@ -124,43 +118,33 @@ public class AchievementFragment extends Fragment {
         int hour = minute * 60;
         int day = hour * 24;
 
-        long diff = (System.currentTimeMillis() - quitDateInMillis)*second;   // seconds
-
+        long diff = (System.currentTimeMillis() - quitDateInMillis)/minute;   // seconds
 
         if(diff >= minute * 20){
-            check.add(true);
             //System.out.println("det har gått 20 min");
         }
         if(diff >= hour * 8){
-            check.add(true);
             //System.out.println("Det har gått 8 timer");
         }
         if(diff >= hour * 24){
-            check.add(true);
             //System.out.println("Det har gått 24 timer");
         }
         if(diff >= hour * 48){
-            check.add(true);
             //System.out.println("Det har gått 48 timer");
         }
         if(diff >= hour * 72){
-            check.add(true);
             //System.out.println("Det har gått 72 timer");
         }
         if(diff >= day * 14){
-            check.add(true);
             //System.out.println("Det har gått 2 uker");
         }
         if(diff >= day * 28){
-            check.add(true);
             //System.out.println("Det har gått 3 uker");
         }
         if(diff >= day * 90){
-            check.add(true);
             //System.out.println("Det har gått 3 måneder");
         }
         if(diff >= day * 365){
-            check.add(true);
             //System.out.println("Det har gått 1 år");
         }
 
@@ -175,7 +159,7 @@ public class AchievementFragment extends Fragment {
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            itemView = convertView;
+            View itemView = convertView;
 
             if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.achievement_item, parent, false);
@@ -190,33 +174,18 @@ public class AchievementFragment extends Fragment {
             TextView displayDescription = itemView.findViewById(R.id.view_description);
             displayDescription.setText(currentAchievement.getDescription());
 
-            if(position == 0 && check.get(0) == true){
+            if(position == 0){
                 itemView.setBackgroundColor(getResources().getColor(R.color.verified));
             }
-            if(position == 1 && check.get(1) == true){
+            if(position == 1){
                 itemView.setBackgroundColor(getResources().getColor(R.color.verified));
             }
-            if(position == 2 && check.get(2) == true){
+            if(position == 2){
                 itemView.setBackgroundColor(getResources().getColor(R.color.verified));
             }
-            if(position == 3 && check.get(3) == true){
-                itemView.setBackgroundColor(getResources().getColor(R.color.verified));
-            }
-            if(position == 4 && check.get(4) == true){
-                itemView.setBackgroundColor(getResources().getColor(R.color.verified));
-            }
-            if(position == 2 && check.get(5) == true){
-                itemView.setBackgroundColor(getResources().getColor(R.color.verified));
-            }
-            if(position == 3 && check.get(6) == true){
-                itemView.setBackgroundColor(getResources().getColor(R.color.verified));
-            }
-            if(position == 4 && check.get(7) == true){
-                itemView.setBackgroundColor(getResources().getColor(R.color.verified));
-            }
-            if(position == 4 && check.get(8) == true){
-                itemView.setBackgroundColor(getResources().getColor(R.color.verified));
-            }
+
+
+
 
 
             return itemView;
