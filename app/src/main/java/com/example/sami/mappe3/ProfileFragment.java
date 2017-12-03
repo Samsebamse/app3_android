@@ -23,8 +23,8 @@ public class ProfileFragment extends Fragment {
     private TextView savedMoney, savedTobacco, savedTrophy;
 
     private long quitDateInMillis;
-    private Handler everySecond, everyMinute;
-    private Runnable runnable;
+    private Handler everySecond;
+    private Runnable runnableSecond;
 
     @Nullable
     @Override
@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onPause() {
-        everySecond.removeCallbacks(runnable);
+        everySecond.removeCallbacks(runnableSecond);
         super.onPause();
     }
 
@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
 
         everySecond = new Handler();
         final int delay = 1000; // Every second
-        everySecond.postDelayed(runnable = new Runnable() {
+        everySecond.postDelayed(runnableSecond = new Runnable() {
             public void run() {
                 displayDuration();
                 everySecond.postDelayed(this, delay);
@@ -101,17 +101,6 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void everyMinuteCall() {
-
-        everyMinute = new Handler();
-        final int delay = 1000*1; // Every minute
-        everyMinute.postDelayed(runnable = new Runnable() {
-            public void run() {
-                displaySavings();
-                everyMinute.postDelayed(this, delay);
-            }}, delay);
-    }
-
     public void displaySavings(){
 
         long tobaccoConsumed = profile.getLong("consumption", 0);
@@ -132,9 +121,6 @@ public class ProfileFragment extends Fragment {
         savedMoney.setText(String.valueOf(moneyText));
         savedTobacco.setText(String.valueOf(tobaccoText));
         savedTrophy.setText(String.valueOf(trophyText));
-
-        System.out.println("DISPLAY SAVINGS KJØRER");
-
 
     }
 }
