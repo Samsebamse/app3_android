@@ -75,12 +75,15 @@ public class CalculateSavings {
     }
 
     public void refreshConsumerSavings(){
+        double durationInDays = (System.currentTimeMillis() - quitDateInMillis)/(1000*60*60*24);
 
-        long durationInDays = (System.currentTimeMillis() - quitDateInMillis)/(1000*60*60*24);
+        double consume = (double)consumerConsumption;
+        double tobacco = (double)tobaccoPrice;
 
-        this.moneySaved = (consumerConsumption/7) * tobaccoPrice * durationInDays;
-        this.tobaccoSaved = (consumerConsumption/7) *  durationInDays;
-
+        double converterForMoney = (consume/7) * tobacco * durationInDays;
+        this.moneySaved = (long) converterForMoney;
+        double converterForTobacco = (consume/7) *  durationInDays;
+        this.tobaccoSaved = (long) converterForTobacco;
     }
 
     public long getMoneySaved(){

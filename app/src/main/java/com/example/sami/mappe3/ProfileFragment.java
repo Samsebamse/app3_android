@@ -15,7 +15,6 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-
 public class ProfileFragment extends Fragment {
 
     private SharedPreferences profile;
