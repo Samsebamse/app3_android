@@ -4,10 +4,12 @@ public class Achievement {
 
     private String date;
     private String description;
+    private int resourceId;
 
-    public Achievement(String date, String description) {
+    public Achievement(String date, String description, int resourceId) {
         this.date = date;
         this.description = description;
+        this.resourceId = resourceId;
     }
 
     public String getDate() {
@@ -24,5 +26,12 @@ public class Achievement {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getResourceId(){
+        return resourceId;
+    }
+    public void setResourceId(int resourceId){
+        this.resourceId = resourceId;
     }
 }

@@ -1,13 +1,10 @@
 <resources>
     <string name="app_name">IMotivate</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-    <string name="createaccount">Create account...</string>
-    <string name="quitdate">Enter the date you wish to quit</string>
-    <string name="consumption">Enter amount of packets you consume in a week</string>
-    <string name="price">Enter the latest price</string>
-    <string name="days">Days</string>
-    <string name="hours">Hours</string>
-    <string name="minutes">Minutes</string>
-    <string name="seconds">Seconds</string>
+    <string name="open">åpne</string>
+    <string name="close">lukke</string>
+    <string name="createaccount">Opprett ny bruker</string>
+    <string name="consumption">Hvor mange bokser/pakker i uken</string>
+    <string name="price">Dagens pris per boks/pakke</string>
+    <string name="quitdate">Når sluttet du</string>
+    <string name="smokefree">Du har vært røykfri i</string>
 </resources>

@@ -15,12 +15,13 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class ProfileFragment extends Fragment {
 
     private SharedPreferences profile;
-    private TextView displayCurrentDate, displayDays, displayHours, displayMinutes, displaySeconds;
+    private TextView displayDays, displayHours, displayMinutes, displaySeconds;
 
     private long quitDateInMillis;
     private Handler handler;
@@ -41,7 +42,6 @@ public class ProfileFragment extends Fragment {
         profile = PreferenceManager.getDefaultSharedPreferences(getActivity());
         quitDateInMillis = profile.getLong("quitdate", 0);
 
-        displayCurrentDate = (TextView) view.findViewById(R.id.view_duration);
         displayDays = (TextView) view.findViewById(R.id.view_days);
         displayHours = (TextView) view.findViewById(R.id.view_hours);
         displayMinutes = (TextView) view.findViewById(R.id.view_minutes);
@@ -74,24 +74,26 @@ public class ProfileFragment extends Fragment {
             }}, delay);
     }
 
-
     private void displayDuration() {
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        displayCurrentDate.setText(currentDateTimeString);
 
         long diff = System.currentTimeMillis() - quitDateInMillis;
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(diff);
 
-        long days = calendar.get(Calendar.DAY_OF_YEAR);
-        long hours = calendar.get(Calendar.HOUR_OF_DAY);
+        long days = calendar.get(Calendar.DAY_OF_YEAR)-1;
+        long hours = calendar.get(Calendar.HOUR_OF_DAY)-1;
         long minutes = calendar.get(Calendar.MINUTE);
         long seconds = calendar.get(Calendar.SECOND);
 
-        displayDays.setText(String.valueOf(days));
-        displayHours.setText(String.valueOf(hours));
-        displayMinutes.setText(String.valueOf(minutes));
-        displaySeconds.setText(String.valueOf(seconds));
+        String textDays = getString(R.string.smokefree) + "\n\n" + String.valueOf(days) + "\ndager";
+        String textHours = String.valueOf(hours) + "\ntimer";
+        String textMinutes = String.valueOf(minutes) + "\nminutter";
+        String textSeconds = String.valueOf(seconds) + "\nsekunder";
+
+        displayDays.setText(textDays);
+        displayHours.setText(textHours);
+        displayMinutes.setText(textMinutes);
+        displaySeconds.setText(textSeconds);
 
         System.out.println("TRÅD 1 KJØRER");
     }

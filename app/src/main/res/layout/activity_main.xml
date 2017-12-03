@@ -13,23 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            tools:text="@string/createaccount" />
-
-        <EditText
-            android:id="@+id/userinput_quitdate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="80sp"
-            android:layout_marginRight="80sp"
-            android:layout_marginTop="50sp"
-            android:hint="@string/quitdate"
-            android:textSize="12sp" />
-
         <EditText
             android:id="@+id/userinput_consumption"
             android:layout_width="match_parent"
@@ -37,7 +20,7 @@
             android:inputType="number"
             android:layout_marginLeft="80sp"
             android:layout_marginRight="80sp"
-            android:layout_marginTop="20sp"
+            android:layout_marginTop="50sp"
             android:hint="@string/consumption"
             android:textSize="12sp" />
 
@@ -51,6 +34,17 @@
             android:layout_marginTop="20sp"
             android:hint="@string/price"
             android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/userinput_quitdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80sp"
+            android:layout_marginRight="80sp"
+            android:layout_marginTop="20sp"
+            android:hint="@string/quitdate"
+            android:textSize="12sp" />
+
 
         <Button
             android:id="@+id/button_create_profile"

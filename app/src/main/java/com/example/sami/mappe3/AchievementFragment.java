@@ -1,5 +1,6 @@
 package com.example.sami.mappe3;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ public class AchievementFragment extends Fragment {
     private List<Achievement> listAchievements;
     private ArrayAdapter<Achievement> adapter;
     private ListView listViewAchievements;
+    private ArrayList<Boolean> check;
 
     private long quitDateInMillis;
     private Handler handler;
@@ -39,6 +41,7 @@ public class AchievementFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        check = new ArrayList<>();
         getActivity().setTitle("Achievement");
         listAchievements = new ArrayList<>();
         listViewAchievements = (ListView) view.findViewById(R.id.listview_achievements);
@@ -48,7 +51,6 @@ public class AchievementFragment extends Fragment {
 
 
         fillDataInList();
-
     }
 
     @Override
@@ -68,15 +70,15 @@ public class AchievementFragment extends Fragment {
 
     private void fillDataInList() {
 
-        Achievement achievement1 = new Achievement("20 minutter: ", "Pulsen går ned");
-        Achievement achievement2 = new Achievement("8 timer: ", "Blodsirkulasjonen bedres");
-        Achievement achievement3 = new Achievement("24 timer: ", "Risikoen for hjerteinfarkt synker allerede");
-        Achievement achievement4 = new Achievement("48 timer: ", "Smak og luktesans bedres");
-        Achievement achievement5 = new Achievement("72 timer: ", "Lungekapasiteten øker og kroppen er nikotinfri");
-        Achievement achievement6 = new Achievement("2 uker: ", "Det kjennes lettere å bevege seg raskt");
-        Achievement achievement7 = new Achievement("28 dager: ", "Øker sjansen fem ganger til å slutte å røyke for godt");
-        Achievement achievement8 = new Achievement("3 måneder : ", "Mindre utsatt for luftveisinfeksjoner");
-        Achievement achievement9 = new Achievement("1 år: ", "Immunforsvaret styrkes");
+        Achievement achievement1 = new Achievement("20 minutter: ", "Pulsen går ned", 0);
+        Achievement achievement2 = new Achievement("8 timer: ", "Blodsirkulasjonen bedres", 0);
+        Achievement achievement3 = new Achievement("24 timer: ", "Risikoen for hjerteinfarkt synker allerede", 0);
+        Achievement achievement4 = new Achievement("48 timer: ", "Smak og luktesans bedres", 0);
+        Achievement achievement5 = new Achievement("72 timer: ", "Lungekapasiteten øker og kroppen er nikotinfri", 0);
+        Achievement achievement6 = new Achievement("2 uker: ", "Det kjennes lettere å bevege seg raskt", 0);
+        Achievement achievement7 = new Achievement("3 uker: ", "Øker sjansen fem ganger til å slutte å røyke for godt", 0);
+        Achievement achievement8 = new Achievement("3 måneder : ", "Mindre utsatt for luftveisinfeksjoner", 0);
+        Achievement achievement9 = new Achievement("1 år: ", "Immunforsvaret styrkes", 0);
 
         listAchievements.add(achievement1);
         listAchievements.add(achievement2);
@@ -89,7 +91,6 @@ public class AchievementFragment extends Fragment {
         listAchievements.add(achievement9);
     }
 
-
     public void displayListView() {
         adapter = new MyListAdapter();
         listViewAchievements.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -101,7 +102,7 @@ public class AchievementFragment extends Fragment {
     private void everySecondCall() {
 
         handler = new Handler();
-        final int delay = 1000*60*10; // 10 minutes
+        final int delay = 1000*10; // 10 minutes
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
                 checkForCompleteAchievement();
@@ -112,46 +113,49 @@ public class AchievementFragment extends Fragment {
 
     private void checkForCompleteAchievement(){
 
-        int milliSecond = 1;
-        int second = milliSecond * 1000;
-        int minute = second * 60;
-        int hour = minute * 60;
-        int day = hour * 24;
+        check.clear();
 
-        long diff = (System.currentTimeMillis() - quitDateInMillis)/minute;   // seconds
+        long milliSecond = 1;
+        long second = milliSecond * 1000;
+        long minute = second * 60;
+        long hour = minute * 60;
+        long day = hour * 24;
+
+        long diff = (System.currentTimeMillis() - quitDateInMillis);
+
 
         if(diff >= minute * 20){
-            //System.out.println("det har gått 20 min");
+            check.add(true);
         }
         if(diff >= hour * 8){
-            //System.out.println("Det har gått 8 timer");
+            check.add(true);
         }
         if(diff >= hour * 24){
-            //System.out.println("Det har gått 24 timer");
+            check.add(true);
         }
         if(diff >= hour * 48){
-            //System.out.println("Det har gått 48 timer");
+            check.add(true);
         }
         if(diff >= hour * 72){
-            //System.out.println("Det har gått 72 timer");
+            check.add(true);
         }
         if(diff >= day * 14){
-            //System.out.println("Det har gått 2 uker");
+            check.add(true);
         }
         if(diff >= day * 28){
-            //System.out.println("Det har gått 3 uker");
+            check.add(true);
         }
         if(diff >= day * 90){
-            //System.out.println("Det har gått 3 måneder");
+            check.add(true);
         }
         if(diff >= day * 365){
-            //System.out.println("Det har gått 1 år");
+            check.add(true);
         }
 
     }
 
-
     private class MyListAdapter extends ArrayAdapter<Achievement> {
+
         public MyListAdapter() {
             super(getActivity(), R.layout.achievement_item, listAchievements);
         }
@@ -163,7 +167,6 @@ public class AchievementFragment extends Fragment {
 
             if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.achievement_item, parent, false);
-                itemView.setBackgroundColor(getResources().getColor(R.color.risks));
             }
 
             Achievement currentAchievement = listAchievements.get(position);
@@ -174,19 +177,11 @@ public class AchievementFragment extends Fragment {
             TextView displayDescription = itemView.findViewById(R.id.view_description);
             displayDescription.setText(currentAchievement.getDescription());
 
-            if(position == 0){
-                itemView.setBackgroundColor(getResources().getColor(R.color.verified));
+            for(int i = 0; i < check.size(); i++){
+                if (position == i && check.get(i) == true){
+                    itemView.setBackgroundResource(R.color.verified);
+                }
             }
-            if(position == 1){
-                itemView.setBackgroundColor(getResources().getColor(R.color.verified));
-            }
-            if(position == 2){
-                itemView.setBackgroundColor(getResources().getColor(R.color.verified));
-            }
-
-
-
-
 
             return itemView;
 
