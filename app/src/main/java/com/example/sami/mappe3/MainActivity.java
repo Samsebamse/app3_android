@@ -78,9 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 long consume = Long.parseLong(userConsumption.getText().toString());
                 long price = Long.parseLong(userPrice.getText().toString());
 
-                Date date = new Date();
-                calendar.set(year, monthOfYear, dayOfMonth, date.getHours(), date.getMinutes(), date.getSeconds());
-                quitDateInMillis = calendar.getTimeInMillis();
+
 
                 SharedPreferences.Editor editor = profile.edit();
                 editor.putLong("quitdate", quitDateInMillis);
@@ -105,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                MainActivity.this.year = year;
-                MainActivity.this.monthOfYear = monthOfYear;
-                MainActivity.this.dayOfMonth = dayOfMonth;
+                Date date = new Date();
+                calendar.set(year, monthOfYear, dayOfMonth, date.getHours(), date.getMinutes(), date.getSeconds());
+                quitDateInMillis = calendar.getTimeInMillis();
                 userQuitDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + "." + calendar.get(Calendar.MONTH) + "." + calendar.get(Calendar.YEAR)));
             }
         };
