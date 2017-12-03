@@ -31,7 +31,4 @@ public class Achievement {
     public int getResourceId(){
         return resourceId;
     }
-    public void setResourceId(int resourceId){
-        this.resourceId = resourceId;
-    }
 }

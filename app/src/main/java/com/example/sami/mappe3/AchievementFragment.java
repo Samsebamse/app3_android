@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -71,15 +72,15 @@ public class AchievementFragment extends Fragment {
 
     public void fillDataInList() {
 
-        Achievement achievement1 = new Achievement("20 minutter: ", "Pulsen går ned", 0);
-        Achievement achievement2 = new Achievement("8 timer: ", "Blodsirkulasjonen bedres", 0);
-        Achievement achievement3 = new Achievement("24 timer: ", "Risikoen for hjerteinfarkt synker allerede", 0);
-        Achievement achievement4 = new Achievement("48 timer: ", "Smak og luktesans bedres", 0);
-        Achievement achievement5 = new Achievement("72 timer: ", "Lungekapasiteten øker og kroppen er nikotinfri", 0);
-        Achievement achievement6 = new Achievement("2 uker: ", "Det kjennes lettere å bevege seg raskt", 0);
-        Achievement achievement7 = new Achievement("3 uker: ", "Øker sjansen fem ganger til å slutte å røyke for godt", 0);
-        Achievement achievement8 = new Achievement("3 måneder : ", "Mindre utsatt for luftveisinfeksjoner", 0);
-        Achievement achievement9 = new Achievement("1 år: ", "Immunforsvaret styrkes", 0);
+        Achievement achievement1 = new Achievement("20 minutter: ", "Pulsen går ned", R.drawable.icon_trophy1);
+        Achievement achievement2 = new Achievement("8 timer: ", "Blodsirkulasjonen bedres", R.drawable.icon_trophy2);
+        Achievement achievement3 = new Achievement("24 timer: ", "Risikoen for hjerteinfarkt synker allerede", R.drawable.icon_trophy3);
+        Achievement achievement4 = new Achievement("48 timer: ", "Smak og luktesans bedres", R.drawable.icon_trophy4);
+        Achievement achievement5 = new Achievement("72 timer: ", "Lungekapasiteten øker og kroppen er nikotinfri", R.drawable.icon_trophy5);
+        Achievement achievement6 = new Achievement("2 uker: ", "Det kjennes lettere å bevege seg raskt", R.drawable.icon_trophy6);
+        Achievement achievement7 = new Achievement("3 uker: ", "Øker sjansen fem ganger til å slutte å røyke for godt", R.drawable.icon_trophy7);
+        Achievement achievement8 = new Achievement("3 måneder : ", "Mindre utsatt for luftveisinfeksjoner", R.drawable.icon_trophy8);
+        Achievement achievement9 = new Achievement("1 år: ", "Immunforsvaret styrkes", R.drawable.icon_trophy9);
 
         listAchievements.add(achievement1);
         listAchievements.add(achievement2);
@@ -137,6 +138,9 @@ public class AchievementFragment extends Fragment {
 
             TextView displayDescription = itemView.findViewById(R.id.view_description);
             displayDescription.setText(currentAchievement.getDescription());
+
+            ImageView displayTrophy = itemView.findViewById(R.id.view_trophy_icon);
+            displayTrophy.setBackgroundResource(currentAchievement.getResourceId());
 
             for(int i = 0; i < checkAchievement.size(); i++){
                 if (position == i && checkAchievement.get(i) == true){
