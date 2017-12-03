@@ -1,10 +1,21 @@
 <resources>
     <string name="app_name">IMotivate</string>
+    <string name="my_profile">Min profil</string>
+    <string name="achievement">Helsegevinster</string>
+    <string name="motivation">Motivasjon</string>
+    <string name="create_user">Opprett profil</string>
     <string name="open">åpne</string>
     <string name="close">lukke</string>
-    <string name="createaccount">Opprett ny bruker</string>
     <string name="consumption">Hvor mange bokser/pakker i uken</string>
     <string name="price">Dagens pris per boks/pakke</string>
     <string name="quitdate">Når sluttet du</string>
-    <string name="smokefree">Du har vært røykfri i</string>
+    <string name="smokefree">Du har vært røykfri</string>
+    <string name="summary">Du har sparet</string>
+    <string name="days">dager</string>
+    <string name="hours">timer</string>
+    <string name="minutes">minutter</string>
+    <string name="seconds">sekunder</string>
+    <string name="saved_money">Kroner</string>
+    <string name="saved_tobacco">Doser</string>
+    <string name="saved_trophy">Mål</string>
 </resources>

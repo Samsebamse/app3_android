@@ -6,6 +6,6 @@
     <color name="graylight">#fafafa</color>
     <color name="startblue">#09c6df</color>
     <color name="endblue">#0bcce6</color>
-    <color name="verified">#83ef95</color>
-    <color name="risks">#ff8282</color>
+    <color name="verified">#a5ffa7</color>
+    <color name="risks">#ffa4a4</color>
 </resources>

@@ -19,7 +19,7 @@ public class MotivationFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("Motivation");
+        getActivity().setTitle(getString(R.string.motivation));
 
     }
 }

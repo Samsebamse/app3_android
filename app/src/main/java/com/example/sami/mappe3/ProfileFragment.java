@@ -12,9 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 
@@ -22,9 +20,10 @@ public class ProfileFragment extends Fragment {
 
     private SharedPreferences profile;
     private TextView displayDays, displayHours, displayMinutes, displaySeconds;
+    private TextView savedMoney, savedTobacco, savedTrophy;
 
     private long quitDateInMillis;
-    private Handler handler;
+    private Handler everySecond, everyMinute;
     private Runnable runnable;
 
     @Nullable
@@ -37,7 +36,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getActivity().setTitle("My profile");
+        getActivity().setTitle(getString(R.string.my_profile));
 
         profile = PreferenceManager.getDefaultSharedPreferences(getActivity());
         quitDateInMillis = profile.getLong("quitdate", 0);
@@ -47,11 +46,16 @@ public class ProfileFragment extends Fragment {
         displayMinutes = (TextView) view.findViewById(R.id.view_minutes);
         displaySeconds = (TextView) view.findViewById(R.id.view_seconds);
 
+        savedMoney = (TextView) view.findViewById(R.id.saved_money);
+        savedTobacco = (TextView) view.findViewById(R.id.saved_tobacco);
+        savedTrophy = (TextView) view.findViewById(R.id.saved_trophy);
+
     }
 
 
     @Override
     public void onResume() {
+        displaySavings();
         displayDuration();
         everySecondCall();
         super.onResume();
@@ -59,42 +63,78 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onPause() {
-        handler.removeCallbacks(runnable);
+        everySecond.removeCallbacks(runnable);
         super.onPause();
     }
 
     private void everySecondCall() {
 
-        handler = new Handler();
-        final int delay = 1000; // 1000 milliseconds = 1 second
-        handler.postDelayed(runnable = new Runnable() {
+        everySecond = new Handler();
+        final int delay = 1000; // Every second
+        everySecond.postDelayed(runnable = new Runnable() {
             public void run() {
                 displayDuration();
-                handler.postDelayed(this, delay);
+                everySecond.postDelayed(this, delay);
             }}, delay);
     }
 
-    private void displayDuration() {
+    public void displayDuration() {
 
         long diff = System.currentTimeMillis() - quitDateInMillis;
         Calendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(diff);
 
         long days = calendar.get(Calendar.DAY_OF_YEAR)-1;
-        long hours = calendar.get(Calendar.HOUR_OF_DAY)-1;
+        long hours = calendar.get(Calendar.HOUR_OF_DAY);
         long minutes = calendar.get(Calendar.MINUTE);
         long seconds = calendar.get(Calendar.SECOND);
 
-        String textDays = getString(R.string.smokefree) + "\n\n" + String.valueOf(days) + "\ndager";
-        String textHours = String.valueOf(hours) + "\ntimer";
-        String textMinutes = String.valueOf(minutes) + "\nminutter";
-        String textSeconds = String.valueOf(seconds) + "\nsekunder";
+        String textDays = String.valueOf(days) + "\n" + getString(R.string.days);
+        String textHours = String.valueOf(hours) + "\n" + getString(R.string.hours);
+        String textMinutes = String.valueOf(minutes) + "\n" + getString(R.string.minutes);
+        String textSeconds = String.valueOf(seconds) + "\n" + getString(R.string.seconds);
 
         displayDays.setText(textDays);
         displayHours.setText(textHours);
         displayMinutes.setText(textMinutes);
         displaySeconds.setText(textSeconds);
 
-        System.out.println("TRÅD 1 KJØRER");
+    }
+
+    private void everyMinuteCall() {
+
+        everyMinute = new Handler();
+        final int delay = 1000*1; // Every minute
+        everyMinute.postDelayed(runnable = new Runnable() {
+            public void run() {
+                displaySavings();
+                everyMinute.postDelayed(this, delay);
+            }}, delay);
+    }
+
+    public void displaySavings(){
+
+        long tobaccoConsumed = profile.getLong("consumption", 0);
+        long tobaccoPrice = profile.getLong("price", 0);
+
+        CalculateSavings calculateSavings = new CalculateSavings(quitDateInMillis, tobaccoConsumed, tobaccoPrice);
+        calculateSavings.refreshConsumerSavings();
+        calculateSavings.refreshHealthAchievement();
+
+        long moneySavings = calculateSavings.getMoneySaved();
+        long tobaccoSavings = calculateSavings.getTobaccoSaved();
+        long trophySavings = calculateSavings.getHealthSaved();
+
+        String moneyText = String.valueOf(moneySavings + "\n" + getString(R.string.saved_money));
+        String tobaccoText = String.valueOf(tobaccoSavings + "\n" + getString(R.string.saved_tobacco));
+        String trophyText = String.valueOf(trophySavings + "\n" + getString(R.string.saved_trophy));
+
+        savedMoney.setText(String.valueOf(moneyText));
+        savedTobacco.setText(String.valueOf(tobaccoText));
+        savedTrophy.setText(String.valueOf(trophyText));
+
+        System.out.println("DISPLAY SAVINGS KJØRER");
+
+
     }
 }

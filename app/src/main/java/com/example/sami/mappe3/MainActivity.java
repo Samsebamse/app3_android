@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener date;
     private Calendar calendar;
     private long quitDateInMillis;
+    private int year, monthOfYear, dayOfMonth;
 
     EditText userQuitDate, userConsumption, userPrice;
     SharedPreferences profile;
@@ -77,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                 long consume = Long.parseLong(userConsumption.getText().toString());
                 long price = Long.parseLong(userPrice.getText().toString());
 
+                Date date = new Date();
+                calendar.set(year, monthOfYear, dayOfMonth, date.getHours(), date.getMinutes(), date.getSeconds());
+                quitDateInMillis = calendar.getTimeInMillis();
+
                 SharedPreferences.Editor editor = profile.edit();
                 editor.putLong("quitdate", quitDateInMillis);
                 editor.putLong("consumption", consume);
@@ -100,11 +105,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                Date date = new Date();
-                calendar.set(year, monthOfYear, dayOfMonth, date.getHours(), date.getMinutes(), date.getSeconds());
-                userQuitDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + "." + calendar.get(Calendar.MONTH) + "." + calendar.get(Calendar.YEAR) + "  " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE)+ ":" + calendar.get(Calendar.SECOND)));
-                quitDateInMillis = calendar.getTimeInMillis();
+                MainActivity.this.year = year;
+                MainActivity.this.monthOfYear = monthOfYear;
+                MainActivity.this.dayOfMonth = dayOfMonth;
+                userQuitDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + "." + calendar.get(Calendar.MONTH) + "." + calendar.get(Calendar.YEAR)));
             }
         };
 

@@ -1,6 +1,5 @@
 package com.example.sami.mappe3;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,10 +23,12 @@ public class AchievementFragment extends Fragment {
     private List<Achievement> listAchievements;
     private ArrayAdapter<Achievement> adapter;
     private ListView listViewAchievements;
-    private ArrayList<Boolean> check;
+
+    private CalculateSavings calculateSavings;
+    private ArrayList<Boolean> checkAchievement;
 
     private long quitDateInMillis;
-    private Handler handler;
+    private Handler everyTenMinute;
     private Runnable runnable;
 
 
@@ -41,34 +42,34 @@ public class AchievementFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        check = new ArrayList<>();
-        getActivity().setTitle("Achievement");
-        listAchievements = new ArrayList<>();
-        listViewAchievements = (ListView) view.findViewById(R.id.listview_achievements);
-
+        getActivity().setTitle(getString(R.string.achievement));
         SharedPreferences profile = PreferenceManager.getDefaultSharedPreferences(getActivity());
         quitDateInMillis = profile.getLong("quitdate", 0);
 
+        calculateSavings = new CalculateSavings(quitDateInMillis);
+
+        listAchievements = new ArrayList<>();
+        listViewAchievements = (ListView) view.findViewById(R.id.listview_achievements);
 
         fillDataInList();
     }
 
     @Override
     public void onResume() {
-        checkForCompleteAchievement();
+        calculateSavings.refreshHealthAchievement();
+        checkAchievement = calculateSavings.getHealthApproach();
         displayListView();
         everySecondCall();
-        displayListView();
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        handler.removeCallbacks(runnable);
+        everyTenMinute.removeCallbacks(runnable);
         super.onPause();
     }
 
-    private void fillDataInList() {
+    public void fillDataInList() {
 
         Achievement achievement1 = new Achievement("20 minutter: ", "Pulsen går ned", 0);
         Achievement achievement2 = new Achievement("8 timer: ", "Blodsirkulasjonen bedres", 0);
@@ -101,58 +102,17 @@ public class AchievementFragment extends Fragment {
 
     private void everySecondCall() {
 
-        handler = new Handler();
+        everyTenMinute = new Handler();
         final int delay = 1000*10; // 10 minutes
-        handler.postDelayed(runnable = new Runnable() {
+        everyTenMinute.postDelayed(runnable = new Runnable() {
             public void run() {
-                checkForCompleteAchievement();
+                calculateSavings.refreshHealthAchievement();
+                checkAchievement = calculateSavings.getHealthApproach();
                 adapter.notifyDataSetChanged();
-                handler.postDelayed(this, delay);
+                everyTenMinute.postDelayed(this, delay);
             }}, delay);
     }
 
-    private void checkForCompleteAchievement(){
-
-        check.clear();
-
-        long milliSecond = 1;
-        long second = milliSecond * 1000;
-        long minute = second * 60;
-        long hour = minute * 60;
-        long day = hour * 24;
-
-        long diff = (System.currentTimeMillis() - quitDateInMillis);
-
-
-        if(diff >= minute * 20){
-            check.add(true);
-        }
-        if(diff >= hour * 8){
-            check.add(true);
-        }
-        if(diff >= hour * 24){
-            check.add(true);
-        }
-        if(diff >= hour * 48){
-            check.add(true);
-        }
-        if(diff >= hour * 72){
-            check.add(true);
-        }
-        if(diff >= day * 14){
-            check.add(true);
-        }
-        if(diff >= day * 28){
-            check.add(true);
-        }
-        if(diff >= day * 90){
-            check.add(true);
-        }
-        if(diff >= day * 365){
-            check.add(true);
-        }
-
-    }
 
     private class MyListAdapter extends ArrayAdapter<Achievement> {
 
@@ -167,6 +127,7 @@ public class AchievementFragment extends Fragment {
 
             if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.achievement_item, parent, false);
+                itemView.setBackgroundResource(R.color.risks);
             }
 
             Achievement currentAchievement = listAchievements.get(position);
@@ -177,8 +138,8 @@ public class AchievementFragment extends Fragment {
             TextView displayDescription = itemView.findViewById(R.id.view_description);
             displayDescription.setText(currentAchievement.getDescription());
 
-            for(int i = 0; i < check.size(); i++){
-                if (position == i && check.get(i) == true){
+            for(int i = 0; i < checkAchievement.size(); i++){
+                if (position == i && checkAchievement.get(i) == true){
                     itemView.setBackgroundResource(R.color.verified);
                 }
             }
