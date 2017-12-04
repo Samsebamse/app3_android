@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,9 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private Button createUser;
 
     private DatePickerDialog.OnDateSetListener date;
-    private Calendar calendar;
+    private GregorianCalendar calendar;
     private long quitDateInMillis;
-    private int year, monthOfYear, dayOfMonth;
 
     EditText userQuitDate, userConsumption, userPrice;
     SharedPreferences profile;
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void calendarHandler() {
 
-        calendar = Calendar.getInstance();
+        calendar = new GregorianCalendar();
         userQuitDate.setInputType(InputType.TYPE_NULL);
 
 
@@ -106,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
                 Date date = new Date();
                 calendar.set(year, monthOfYear, dayOfMonth, date.getHours(), date.getMinutes(), date.getSeconds());
                 quitDateInMillis = calendar.getTimeInMillis();
-                userQuitDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + "." + calendar.get(Calendar.MONTH) + "." + calendar.get(Calendar.YEAR)));
+
+                int monthAddOne = calendar.get(Calendar.MONTH)+1;
+                userQuitDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + "." + monthAddOne + "." + calendar.get(Calendar.YEAR)));
             }
         };
 
