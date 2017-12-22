@@ -4,4 +4,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:id="@+id/form_dreamgoal"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/userinput_dreamgoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_marginLeft="80sp"
+        android:layout_marginRight="80sp"
+        android:layout_marginTop="50sp"
+        android:hint="@string/dreamgoal"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/button_create_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80sp"
+        android:layout_marginRight="80sp"
+        android:layout_marginTop="20sp"
+        android:background="@color/startblue"
+        android:text="@string/create_user"/>
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -61,7 +61,7 @@ public class CalculateSavings {
         if(durationInMillis >= day * 14){
             healthApproach.add(true);
         }
-        if(durationInMillis >= day * 28){
+        if(durationInMillis >= day * 21){
             healthApproach.add(true);
         }
         if(durationInMillis >= day * 90){

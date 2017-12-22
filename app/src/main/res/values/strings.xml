@@ -10,7 +10,7 @@
     <string name="price">Dagens pris per boks/pakke</string>
     <string name="quitdate">Når sluttet du</string>
     <string name="smokefree">Du har vært røykfri</string>
-    <string name="summary">Du har sparet</string>
+    <string name="summary">Du har spart</string>
     <string name="days">dager</string>
     <string name="hours">timer</string>
     <string name="minutes">minutter</string>
@@ -18,4 +18,5 @@
     <string name="saved_money">Kroner</string>
     <string name="saved_tobacco">Doser</string>
     <string name="saved_trophy">Mål</string>
+    <string name="dreamgoal">Pris på noe du ønsker å spare penger til, f.eks bil.</string>
 </resources>
